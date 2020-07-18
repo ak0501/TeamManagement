@@ -436,21 +436,15 @@ SELECT department.id, department.name, role.salary
   connection.query(query, function (err, res) {
     if (err) throw err;
 
-
     const departmentChoices = res.map(({
       id,
       name
     }) => ({
       value: id,
-      name: `
-  $ {
-    id
-  }
-  $ {
-    name
-  }
-  `
+      name: name
     }));
+
+
 
     console.table(res);
     console.log("Department array!");
@@ -458,6 +452,7 @@ SELECT department.id, department.name, role.salary
     promptAddRole(departmentChoices);
   });
 }
+
 // ────────────────────────────────────────────────────────────────────────────────
 function promptAddRole(departmentChoices) {
 
@@ -481,14 +476,13 @@ function promptAddRole(departmentChoices) {
     ])
     .then(function (answer) {
 
-      let query = `
-  INSERT INTO role SET ? `;
+      let query = "INSERT INTO role (title,salary,department_id) VALUES (?,?,?)";
 
-      connection.query(query, {
-          title: answer.title,
-          salary: answer.salary,
-          department_id: answer.departmentId
-        },
+      connection.query(query, [
+          answer.roleTitle,
+          parseInt(answer.roleSalary),
+          answer.departmentId
+        ],
         function (err, res) {
           if (err) throw err;
 
