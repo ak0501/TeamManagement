@@ -8,7 +8,7 @@ const questions = require("./questions");
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'root',
+  password: 'password',
   database: 'management_db',
   port: 3306
 });
@@ -86,7 +86,7 @@ function viewEmployeeByDepartment() {
   console.log("Viewing employees by department\n");
 
   let sqlQuery =
-    `SELECT d.id, d.name, r.salary AS budget
+    `SELECT d.id, d.name, r.salary 
   FROM employee e
   LEFT JOIN role r
 	ON e.role_id = r.id
@@ -136,7 +136,7 @@ function promptDepartment(departmentChoices) {
         console.table("response ", res);
         console.log(res.affectedRows + "Employees are viewed!\n");
 
-        Prompt();
+        startPrompt();
       });
     });
 }
